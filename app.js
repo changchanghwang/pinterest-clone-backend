@@ -14,14 +14,14 @@ sequelize
 //morgan
 app.use(morgan('dev'));
 
+//parser
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
 //router
 const router = require('./routers/index');
 
 //router
 app.use('/', router);
-
-//parser
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 module.exports = http;

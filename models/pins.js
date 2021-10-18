@@ -41,15 +41,16 @@ module.exports = class User extends Sequelize.Model {
     );
   }
   static associate(db) {
-    //Todo와 1대 N의 관계 중 1의 관계
-    db.Pin.hasMany(db.Board, {
+    //1대 N의 관계 중 1의 관계
+    db.Pin.hasMany(db.Comment, {
       foreignKey: 'pin',
       sourceKey: 'id',
       onDelete: 'CASCADE',
     });
-    db.Pin.hasMany(db.Comment, {
-      foreignKey: 'pin',
-      sourceKey: 'id',
+    //1대 N의 관계 중 N의 관계
+    db.Pin.belongsTo(db.Board, {
+      foreignKey: 'board',
+      targetKey: 'id',
       onDelete: 'CASCADE',
     });
     db.Pin.belongsTo(db.User, {
