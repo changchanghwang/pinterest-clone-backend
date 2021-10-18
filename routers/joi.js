@@ -3,7 +3,7 @@ const Joi = require('joi');
 module.exports = {
   Joi,
   signUpSchema: Joi.object({
-    userId: Joi.string()
+    email: Joi.string()
       .email({
         minDomainSegments: 2,
         tlds: { allow: ['com', 'net'] },
