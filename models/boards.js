@@ -35,9 +35,10 @@ module.exports = class User extends Sequelize.Model {
       targetKey: 'id',
       onDelete: 'CASCADE',
     });
-    db.Board.belongsTo(db.Pin, {
-      foreignKey: 'pin',
-      targetKey: 'id',
+    //1대 N의 관계 중 1의 관계
+    db.Board.hasMany(db.Pin, {
+      foreignKey: 'board',
+      sourceKey: 'id',
       onDelete: 'CASCADE',
     });
   }
