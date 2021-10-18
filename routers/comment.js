@@ -5,6 +5,7 @@ const { Comment, Like, Pin } = require('../models');
 router.post('/:pin', async (req, res, next) => {
   const { content } = req.body;
   const { pin } = req.params;
+  const user = res.locals.user;
   try {
     await Comment.create({
       content,
@@ -14,31 +15,37 @@ router.post('/:pin', async (req, res, next) => {
     return res.sendStatus(200);
   } catch (err) {
     console.error(err);
+    next(err);
   }
 });
 
 router.patch('/:comment', async (req, res, next) => {
   const { content } = req.body;
   const { comment } = req.params;
+  const user = res.locals.user;
   try {
-    const commentExist = await Comment.findOne({ where: { id: comment } });
+    const commentExist = await Comment.findOne({
+      where: { id: comment, user },
+    });
     if (!commentExist) {
       return res.sendStatus(400);
     } else {
-      await Comment.update({ content }, { where: { id: comment } });
+      await Comment.update({ content }, { where: { id: comment, user } });
       return res.sendStatus(200);
     }
   } catch (err) {
     console.error(err);
+    next(err);
   }
 });
 
 router.post('/like/:pin', async (req, res, next) => {
   const { pin } = req.params;
+  const user = res.locals.user;
   try {
-    const likeExist = await Like.findOne({ where: { pin } });
+    const likeExist = await Like.findOne({ where: { pin, user } });
     if (!likeExist) {
-      await Like.create({ pin });
+      await Like.create({ pin, user });
       const likeNum = await Like.count({ where: { pin } });
       await Pin.update({ likeNum }, { where: { id: pin } });
       res.sendStatus(200);
@@ -50,6 +57,7 @@ router.post('/like/:pin', async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
+    next(err);
   }
 });
 

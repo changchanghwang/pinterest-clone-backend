@@ -20,8 +20,12 @@ app.use(express.json());
 
 //router
 const router = require('./routers/index');
+const { errorHandler } = require('./middlewares/errorHandler');
 
-//router
+//rouing
 app.use('/', router);
+
+//errorHandler
+app.use(errorHandler);
 
 module.exports = http;
