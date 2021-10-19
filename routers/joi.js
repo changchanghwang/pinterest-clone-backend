@@ -15,4 +15,8 @@ module.exports = {
       .pattern(/^[a-zA-Z0-9]{8,}$/),
     age: Joi.number().required(),
   }),
+  loginSchema: Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+  }),
 };
