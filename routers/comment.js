@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { Comment, Like, Pin } = require('../models');
+const auth = require('../middlewares/auth');
+require('dotenv').config();
 
-router.post('/:pin', async (req, res, next) => {
+router.post('/:pin', auth, async (req, res, next) => {
   const { content } = req.body;
   const { pin } = req.params;
   const user = res.locals.user;
@@ -19,7 +21,7 @@ router.post('/:pin', async (req, res, next) => {
   }
 });
 
-router.patch('/:comment', async (req, res, next) => {
+router.patch('/:comment', auth, async (req, res, next) => {
   const { content } = req.body;
   const { comment } = req.params;
   const user = res.locals.user;
@@ -39,7 +41,7 @@ router.patch('/:comment', async (req, res, next) => {
   }
 });
 
-router.post('/like/:pin', async (req, res, next) => {
+router.post('/like/:pin', auth, async (req, res, next) => {
   const { pin } = req.params;
   const user = res.locals.user;
   try {
