@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Comment, Like, Pin } = require('../models');
+const auth = require('../middlewares/auth');
 
 router.post('/:pin', async (req, res, next) => {
   const { content } = req.body;

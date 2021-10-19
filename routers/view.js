@@ -38,16 +38,13 @@ router.get('/my/board/:board', async (req, res, next) => {
   res.status(200).json({ pins });
 });
 
-/* 로그인 페이지 불러오기 */
-router.get('/login', async (req, res) => {
-  const { imgURL } = req.body;
+// 메인페이지
+router.get('/main', async (req, res) => {
   try {
-    const img = await Pin.findAll({ where: { imgURL } });
-    console.log(img.imgURL);
-
-    res.status(200).json({ imgs, msg: 'ok' });
-  } catch (error) {
-    res.status(401).json({ msg: 'err' });
+    const pins = await Pin.findAll({});
+    res.status(200).json({ pins });
+  } catch (err) {
+    res.status(400).send(err);
   }
 });
 
