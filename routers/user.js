@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const { User } = require('../models');
 const { signUpSchema, loginSchema } = require('./joi');
 const bcrypt = require('bcrypt');
@@ -39,28 +38,24 @@ router.post('/signup', async (req, res, next) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = await loginSchema.validateAsync(req.body);
-
+    console.log(email, password);
     const user = await User.findOne({ where: { email } });
     // 검색한 회원의 이메일이 없는 경우
     if (!user) {
-      return res.status(401).json({
-        success: false,
-        msg: '이메일 또는 패스워드가 잘못됐습니다',
-      });
+      return res.status(400).json({});
     }
     // 비밀번호가 일치하지 않는 경우
     if (!bcrypt.compareSync(password, user.password)) {
-      return res.status(401).json({
-        success: false,
-        msg: '이메일 또는 패스워드가 잘못됐습니다',
-      });
+      return res.status(400).json({});
     } else {
       // 토큰 생성
-      const token = jwt.sign({ email }, process.env.SECRET_KEY);
-      res.status(200).json({ token, msg: '로그인 성공' });
+      const mail = user.email;
+      const token = jwt.sign({ email: mail }, process.env.SECRET_KEY);
+      const nickname = user.nickname;
+      res.status(200).json({ token, nickname });
     }
-  } catch (error) {
-    res.status(500).json({ success: false, msg: '예상치 못한 에러 발생' });
+  } catch (err) {
+    next(err);
   }
 });
 

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
-const User = require('../models');
+const { User } = require('../models');
 
 module.exports = async (req, res, next) => {
   const { authorization } = req.headers;
@@ -11,8 +10,10 @@ module.exports = async (req, res, next) => {
   try {
     // 로그인된 유저
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const email = decoded.email;
+    console.log(email);
     const user = await User.findOne({
-      where: { email: decoded.email },
+      where: { email },
     });
     res.locals.user = user.id;
     next();
