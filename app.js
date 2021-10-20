@@ -4,12 +4,21 @@ const Http = require('http');
 const http = Http.createServer(app);
 const morgan = require('morgan');
 const { sequelize } = require('./models/index');
+const cors = require('cors');
 
 //sequelize 초기화
 sequelize
   .sync({ force: false })
   .then(() => console.log('데이터베이스 연결 성공!'))
   .catch((err) => console.error(err));
+
+//cors
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 //morgan
 app.use(morgan('dev'));

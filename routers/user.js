@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models');
+const { User, Board } = require('../models');
 const { signUpSchema, loginSchema } = require('./joi');
 const bcrypt = require('bcrypt');
 const saltRound = 10;
@@ -21,6 +21,9 @@ router.post('/signup', async (req, res, next) => {
         age,
         nickname,
       });
+      const createdUser = await User.findOne({ where: { email } });
+      const user = createdUser.id;
+      await Board.create({ boardName: '나의 보드', user });
       return res.sendStatus(200);
     } else {
       return res.sendStatus(400);
@@ -35,8 +38,9 @@ router.post('/signup', async (req, res, next) => {
 //                LOGIN
 ////////////////////////////////////////////////////////////
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
+    console.log(req.body);
     const { email, password } = await loginSchema.validateAsync(req.body);
     console.log(email, password);
     const user = await User.findOne({ where: { email } });

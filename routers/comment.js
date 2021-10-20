@@ -1,9 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { Comment, Like, Pin } = require('../models');
+const { Comment, Like } = require('../models');
 const auth = require('../middlewares/auth');
 require('dotenv').config();
 
+router.get('/:pin', auth, async (req, res, next) => {
+  const { pin } = req.params;
+  try {
+    const comments = await Comment.findAll({ where: { pin } });
+    res.status(200).json({ comments });
+  } catch (err) {
+    next(err);
+  }
+});
+//댓글 등록하기
 router.post('/:pin', auth, async (req, res, next) => {
   const { content } = req.body;
   const { pin } = req.params;
@@ -41,20 +51,20 @@ router.patch('/:comment', auth, async (req, res, next) => {
   }
 });
 
-router.post('/like/:pin', auth, async (req, res, next) => {
-  const { pin } = req.params;
+router.post('/like/:comment', auth, async (req, res, next) => {
+  const { comment } = req.params;
   const user = res.locals.user;
   try {
-    const likeExist = await Like.findOne({ where: { pin, user } });
+    const likeExist = await Like.findOne({ where: { comment, user } });
     if (!likeExist) {
-      await Like.create({ pin, user });
-      const likeNum = await Like.count({ where: { pin } });
-      await Pin.update({ likeNum }, { where: { id: pin } });
+      await Like.create({ comment, user });
+      const likeNum = await Like.count({ where: { comment } });
+      await Comment.update({ likeNum }, { where: { id: comment } });
       res.sendStatus(200);
     } else {
-      await Like.destroy({ where: { pin } });
-      const likeNum = await Like.count({ where: { pin } });
-      await Pin.update({ likeNum }, { where: { id: pin } });
+      await Like.destroy({ where: { comment } });
+      const likeNum = await Like.count({ where: { comment } });
+      await Comment.update({ likeNum }, { where: { id: comment } });
       res.sendStatus(200);
     }
   } catch (err) {
