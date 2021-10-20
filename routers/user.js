@@ -44,6 +44,7 @@ router.post('/login', async (req, res, next) => {
     const { email, password } = await loginSchema.validateAsync(req.body);
     console.log(email, password);
     const user = await User.findOne({ where: { email } });
+
     // 검색한 회원의 이메일이 없는 경우
     if (!user) {
       return res.status(400).json({});
