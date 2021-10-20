@@ -64,4 +64,18 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+router.get('/login/:email', async (req, res, next) => {
+  const { email } = req.params;
+  try {
+    const userExist = await User.findOne({ where: { email } });
+    if (userExist) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(400);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
