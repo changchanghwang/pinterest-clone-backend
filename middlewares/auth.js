@@ -5,7 +5,7 @@ module.exports = async (req, res, next) => {
   console.log(req.headers.authorization);
   const { authorization } = req.headers;
   const [Bearer, token] = authorization.split(' ');
-  if (token === undefined) {
+  if (token == 'undefined') {
     return res.status(401).json({});
   }
   try {
