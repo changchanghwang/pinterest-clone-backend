@@ -3,11 +3,11 @@ const { User } = require('../models');
 
 module.exports = async (req, res, next) => {
   const { authorization } = req.headers;
+  const [bearer, token] = authorization.split(' ');
   console.log(authorization);
-  if (authorization === undefined) {
+  if (token === undefined) {
     return res.status(401).json({});
   }
-  const [bearer, token] = authorization.split(' ');
   try {
     // 로그인된 유저
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
