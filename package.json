@@ -17,12 +17,16 @@
   },
   "homepage": "https://github.com/changchanghwang/pinterest-clone-backend#readme",
   "dependencies": {
+    "aws-sdk": "^2.1010.0",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "multer-s3": "^2.10.0",
     "mysql2": "^2.3.2",
     "passport": "^0.5.0",
     "sequelize": "^6.7.0"

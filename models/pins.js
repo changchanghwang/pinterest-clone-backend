@@ -25,7 +25,7 @@ module.exports = class User extends Sequelize.Model {
         },
         webSite: {
           type: Sequelize.TEXT,
-          allowNull: false,
+          allowNull: true,
         },
       },
       {

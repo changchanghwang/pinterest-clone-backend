@@ -5,3 +5,4 @@ coverage
 .vscode
 jest.config.js
 config
+/S3/s3config.json
