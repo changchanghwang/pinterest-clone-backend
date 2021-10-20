@@ -10,14 +10,15 @@ router.post('/pin', s3.upload.single('image'), async (req, res) => {
 });
 
 // 핀등록
-router.post('/', async (req, res) => {
-  const { title, desc, imgURL, boardId } = req.body;
+router.post('/:board', async (req, res, next) => {
+  const { board } = req.params;
+  const { title, desc, image } = req.body;
   const user = res.locals.user;
   try {
     await Pin.create({ title, desc, imgURL, boardId, user });
     return res.status(200).send();
   } catch (err) {
-    res.status(401).send(err);
+    next(err);
   }
 });
 

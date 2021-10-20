@@ -46,12 +46,12 @@ router.get('/login', auth, async (req, res) => {
 });
 
 // 메인페이지
-router.get('/main', async (req, res) => {
+router.get('/main', async (req, res, next) => {
   try {
     const pins = await Pin.findAll({});
     res.status(200).json({ pins });
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
 });
 
@@ -66,7 +66,7 @@ router.get('/detail/:pin', auth, async (req, res, next) => {
   }
 });
 
-router.get('/view/login/:email', async (req, res, next) => {
+router.get('/login/:email', async (req, res, next) => {
   const { email } = req.params;
   try {
     const userExist = await User.findOne({ where: { email } });

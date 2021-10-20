@@ -74,14 +74,14 @@ router.post('/like/:comment', auth, async (req, res, next) => {
 });
 
 /* 댓글 삭제 */
-router.delete('/:comment', auth, async (req, res) => {
+router.delete('/:comment', auth, async (req, res, next) => {
   const { comment } = req.params;
   const user = res.locals.user;
   try {
-    await Comment.destroy({ where: { id: comment, content, user } });
+    await Comment.destroy({ where: { content, user } });
     res.status(200).send();
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
 });
 
