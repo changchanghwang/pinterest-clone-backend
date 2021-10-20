@@ -21,7 +21,7 @@ router.get('/my', auth, async (req, res, next) => {
       include: [
         {
           model: Pin,
-          attributes: ['imgURL'],
+          attributes: ['id', 'imgURL'],
         },
       ],
       where: { user },
@@ -31,13 +31,6 @@ router.get('/my', auth, async (req, res, next) => {
     console.error(err);
     next(err);
   }
-});
-
-router.get('/my/board/:board', auth, async (req, res, next) => {
-  const { board } = req.params;
-  const user = res.locals.user;
-  const pins = await Pin.findAll({ where: { board, user } });
-  res.status(200).json({ pins });
 });
 
 /* 로그인 페이지 불러오기 */
@@ -61,20 +54,6 @@ router.get('/detail/:pin', auth, async (req, res, next) => {
   try {
     const pinDetail = await Pin.findOne({ where: { id: pin } });
     res.status(200).json({ pinDetail });
-  } catch (err) {
-    next(err);
-  }
-});
-
-router.get('/login/:email', async (req, res, next) => {
-  const { email } = req.params;
-  try {
-    const userExist = await User.findOne({ where: { email } });
-    if (userExist) {
-      res.sendStatus(200);
-    } else {
-      res.sendStatus(400);
-    }
   } catch (err) {
     next(err);
   }

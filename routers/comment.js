@@ -13,10 +13,10 @@ router.get('/:pin', auth, async (req, res, next) => {
     next(err);
   }
 });
+
 //댓글 등록하기
-router.post('/:pin', auth, async (req, res, next) => {
-  const { content } = req.body;
-  const { pin } = req.params;
+router.post('/', auth, async (req, res, next) => {
+  const { content, pin } = req.body;
   const user = res.locals.user;
   try {
     await Comment.create({
@@ -24,7 +24,7 @@ router.post('/:pin', auth, async (req, res, next) => {
       pin,
       user,
     });
-    return res.sendStatus(200);
+    return res.status(200).json({ user });
   } catch (err) {
     console.error(err);
     next(err);
@@ -76,9 +76,10 @@ router.post('/like/:comment', auth, async (req, res, next) => {
 /* 댓글 삭제 */
 router.delete('/:comment', auth, async (req, res) => {
   const { comment } = req.params;
+  console.log(comment);
   const user = res.locals.user;
   try {
-    await Comment.destroy({ where: { id: comment, content, user } });
+    await Comment.destroy({ where: { id: comment, user } });
     res.status(200).send();
   } catch (err) {
     res.status(400).send(err);
