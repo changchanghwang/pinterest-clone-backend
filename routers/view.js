@@ -53,11 +53,12 @@ router.get('/login', auth, async (req, res) => {
   }
 });
 
+//상세페이지
 router.get('/detail/:pin', auth, async (req, res, next) => {
   const { pin } = req.params;
   try {
     const pinDetail = await Pin.findOne({ where: { id: pin } });
-    res.status(200).json({ pinDetail, comments });
+    res.status(200).json({ pinDetail });
   } catch (err) {
     next(err);
   }

@@ -13,6 +13,7 @@ router.get('/:pin', auth, async (req, res, next) => {
     next(err);
   }
 });
+//댓글 등록하기
 router.post('/:pin', auth, async (req, res, next) => {
   const { content } = req.body;
   const { pin } = req.params;
