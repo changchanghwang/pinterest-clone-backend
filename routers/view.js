@@ -66,7 +66,7 @@ router.get('/detail/:pin', auth, async (req, res, next) => {
   }
 });
 
-router.get('/view/login/:email', async (req, res, next) => {
+router.get('/login/:email', async (req, res, next) => {
   const { email } = req.params;
   try {
     const userExist = await User.findOne({ where: { email } });
