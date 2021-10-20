@@ -1,11 +1,24 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
-const { auth } = require('../middlewares/auth');
-const s3 = require('../S3/s3');
+const auth = require('../middlewares/auth');
+const upload = require('../S3/s3');
+const { Pin } = require('../models');
 
-router.post('/pin', s3.upload.single('image'), async (req, res) => {
-  console.log(req.file);
+router.post('/pin/:board', auth, upload.single('image'), async (req, res) => {
+  console.log(req);
+  const { board } = req.params;
+  const { title, desc } = req.body;
+  const imgURL = req.file.location;
+  const user = res.locals.user;
+  await Pin.create({
+    title,
+    desc,
+    imgURL,
+    board,
+    user,
+  });
+  res.sendStatus(200);
 });
 
 module.exports = router;
