@@ -24,7 +24,8 @@ router.post('/signup', async (req, res, next) => {
       const createdUser = await User.findOne({ where: { email } });
       const user = createdUser.id;
       await Board.create({ boardName: '나의 보드', user });
-      return res.sendStatus(200);
+      const token = jwt.sign({ email }, process.env.SECRET_KEY);
+      return res.status(200).json({ token, nickname });
     } else {
       return res.sendStatus(400);
     }

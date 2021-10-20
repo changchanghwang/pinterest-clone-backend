@@ -1,4 +1,6 @@
 const express = require('express');
+const sequelize = require('sequelize');
+const Op = sequelize.Op;
 const router = express.Router();
 const { Board, Pin, Comment, User } = require('../models');
 const auth = require('../middlewares/auth');
@@ -39,7 +41,7 @@ router.get('/login', auth, async (req, res) => {
 });
 
 // 메인페이지
-router.get('/main', async (req, res) => {
+router.get('/main', auth, async (req, res) => {
   try {
     const pins = await Pin.findAll({});
     res.status(200).json({ pins });
@@ -57,6 +59,27 @@ router.get('/detail/:pin', auth, async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+router.get('/search', auth, async (req, res, next) => {
+  const { search } = req.query;
+  const pins = await Pin.findAll({
+    where: {
+      [Op.or]: [
+        {
+          title: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+        {
+          desc: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+      ],
+    },
+  });
+  res.status(200).json({ pins });
 });
 
 module.exports = router;
