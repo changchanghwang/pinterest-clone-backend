@@ -15,8 +15,8 @@ sequelize
 app.use(morgan('dev'));
 
 //parser
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //router
 const router = require('./routers/index');
