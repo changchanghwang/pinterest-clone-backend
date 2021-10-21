@@ -19,15 +19,17 @@ router.get('/submit', auth, async (req, res, next) => {
 router.get('/my', auth, async (req, res, next) => {
   const user = res.locals.user;
   try {
-    const myBoard = await Board.findOne({
+    const myBoard = await User.findOne({
       include: [
         {
           model: Pin,
           attributes: ['id', 'imgURL'],
         },
       ],
-      where: { user },
+      attributes: ['id'],
+      where: { id: user },
     });
+    console.log(myBoard);
     res.status(200).json({ myBoard });
   } catch (err) {
     console.error(err);
@@ -35,16 +37,16 @@ router.get('/my', auth, async (req, res, next) => {
   }
 });
 
-/* 로그인 페이지 불러오기 */
-router.get('/login', auth, async (req, res) => {
-  const { imgURL } = req.body;
-});
-
 // 메인페이지
 router.get('/main', auth, async (req, res) => {
+  const user = res.locals.user;
   try {
     const pins = await Pin.findAll({});
-    res.status(200).json({ pins });
+    const board = await Board.findOne({ where: { user } });
+    const boardId = board.id;
+    console.log(boardId);
+    console.log(pins.length);
+    res.status(200).json({ pins, boardId });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -61,25 +63,34 @@ router.get('/detail/:pin', auth, async (req, res, next) => {
   }
 });
 
-router.get('/search', auth, async (req, res, next) => {
-  const { search } = req.query;
-  const pins = await Pin.findAll({
-    where: {
-      [Op.or]: [
-        {
-          title: {
-            [Op.like]: `%${search}%`,
-          },
+router.get('/search/:word', auth, async (req, res, next) => {
+  const { word } = req.params;
+  try {
+    if (word === null) {
+      const pins = await Pin.findAll({});
+      return res.status(200).json({ pins });
+    } else {
+      const pins = await Pin.findAll({
+        where: {
+          [Op.or]: [
+            {
+              title: {
+                [Op.like]: `%${word}%`,
+              },
+            },
+            {
+              desc: {
+                [Op.like]: `%${word}%`,
+              },
+            },
+          ],
         },
-        {
-          desc: {
-            [Op.like]: `%${search}%`,
-          },
-        },
-      ],
-    },
-  });
-  res.status(200).json({ pins });
+      });
+      res.status(200).json({ pins });
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;

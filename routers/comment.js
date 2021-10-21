@@ -24,7 +24,11 @@ router.post('/', auth, async (req, res, next) => {
       pin,
       user,
     });
-    return res.status(200).json({ user });
+    const createdcomment = await Comment.findOne({
+      where: { content, pin, user },
+    });
+    const comment = createdcomment.id;
+    return res.status(200).json({ user, comment });
   } catch (err) {
     console.error(err);
     next(err);
@@ -32,6 +36,8 @@ router.post('/', auth, async (req, res, next) => {
 });
 
 router.patch('/:comment', auth, async (req, res, next) => {
+  console.log(req.params);
+  console.log(req.body);
   const { content } = req.body;
   const { comment } = req.params;
   const user = res.locals.user;
@@ -39,6 +45,7 @@ router.patch('/:comment', auth, async (req, res, next) => {
     const commentExist = await Comment.findOne({
       where: { id: comment, user },
     });
+    console.log(commentExist);
     if (!commentExist) {
       return res.sendStatus(400);
     } else {
@@ -78,9 +85,17 @@ router.delete('/:comment', auth, async (req, res) => {
   const { comment } = req.params;
   console.log(comment);
   const user = res.locals.user;
+  console.log(user);
   try {
-    await Comment.destroy({ where: { id: comment, user } });
-    res.status(200).send();
+    const commentExist = await Comment.findOne({
+      where: { id: comment, user },
+    });
+    if (commentExist) {
+      await Comment.destroy({ where: { id: comment, user } });
+      res.status(200).send();
+    } else {
+      res.sendStatus(400);
+    }
   } catch (err) {
     res.status(400).send(err);
   }

@@ -11,6 +11,7 @@ router.post(
   upload.single('image'),
   async (req, res, next) => {
     const { board } = req.params;
+    console.log(board);
     const { title, desc } = req.body;
     const imgURL = req.file.location;
     const user = res.locals.user;
