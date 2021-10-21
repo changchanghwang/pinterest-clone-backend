@@ -5,8 +5,7 @@ module.exports = async (req, res, next) => {
   console.log(req.headers.authorization);
   const { authorization } = req.headers;
   const [Bearer, token] = authorization.split(' ');
-  // 로그인 실패
-  if (token === undefined) {
+  if (token == 'undefined') {
     return res.status(401).json({});
   }
   try {
