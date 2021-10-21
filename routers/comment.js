@@ -5,18 +5,18 @@ const auth = require('../middlewares/auth');
 require('dotenv').config();
 
 router.get('/:pin', auth, async (req, res, next) => {
-  const { pin } = req.params;
+  const { pin } = req.params; // params에 pin 객체
   try {
-    const comments = await Comment.findAll({ where: { pin } });
+    const comments = await Comment.findAll({ where: { pin } }); // comments table의 pin key를 찾는다. [{}]구조
     res.status(200).json({ comments });
   } catch (err) {
     next(err);
   }
 });
+
 //댓글 등록하기
-router.post('/:pin', auth, async (req, res, next) => {
-  const { content } = req.body;
-  const { pin } = req.params;
+router.post('/', auth, async (req, res, next) => {
+  const { content, pin } = req.body; // body에 content, pin을 객체로 받아온다
   const user = res.locals.user;
   try {
     await Comment.create({
@@ -24,7 +24,7 @@ router.post('/:pin', auth, async (req, res, next) => {
       pin,
       user,
     });
-    return res.sendStatus(200);
+    return res.status(200).json({ user });
   } catch (err) {
     console.error(err);
     next(err);
@@ -76,9 +76,10 @@ router.post('/like/:comment', auth, async (req, res, next) => {
 /* 댓글 삭제 */
 router.delete('/:comment', auth, async (req, res, next) => {
   const { comment } = req.params;
+  console.log(comment);
   const user = res.locals.user;
   try {
-    await Comment.destroy({ where: { content, user } });
+    await Comment.destroy({ where: { id: comment, user } });
     res.status(200).send();
   } catch (err) {
     next(err);

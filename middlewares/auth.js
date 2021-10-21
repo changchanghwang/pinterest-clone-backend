@@ -2,9 +2,10 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 module.exports = async (req, res, next) => {
+  console.log(req.headers.authorization);
   const { authorization } = req.headers;
-  const [bearer, token] = authorization.split(' ');
-  console.log(authorization);
+  const [Bearer, token] = authorization.split(' ');
+  // 로그인 실패
   if (token === undefined) {
     return res.status(401).json({});
   }
@@ -18,6 +19,6 @@ module.exports = async (req, res, next) => {
     res.locals.user = user.id;
     next();
   } catch (err) {
-    console.error(err);
+    next(err);
   }
 };
