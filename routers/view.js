@@ -10,7 +10,7 @@ require('dotenv').config();
 router.get('/submit', auth, async (req, res, next) => {
   const user = res.locals.user;
   try {
-    // board table의 user 검색
+    // board table의 user 조회
     const myBoard = await Board.findOne({ where: { user } });
     res.status(200).json({ myBoard });
   } catch (err) {
@@ -22,7 +22,7 @@ router.get('/submit', auth, async (req, res, next) => {
 router.get('/my', auth, async (req, res, next) => {
   const user = res.locals.user;
   try {
-    // 로그인 한 회원. boards table과 관계된 pins의 id, imgURL 칼럼 선택
+    // 로그인 한 회원. Board와 Pin관계쿼리 pins의 id, imgURL 칼럼 선택조회
     const myBoard = await Board.findOne({
       include: [
         {

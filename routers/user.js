@@ -19,7 +19,7 @@ router.post('/signup', async (req, res, next) => {
     const nickname = email.substr(0, 3);
     // password hash암호화
     const hashedPassword = await bcrypt.hash(password, saltRound);
-    // users table의 email 조건을 검색
+    // users table의 email 조건을 조회
     const emailExist = await User.findOne({ where: { email } });
     // 유효성 검사 통과 && email이 없는 경우
     if (signupValidation(email, password) && !emailExist) {
@@ -30,7 +30,7 @@ router.post('/signup', async (req, res, next) => {
         age,
         nickname,
       });
-      // 생성된 회원의 email 검색
+      // 생성된 회원의 email 조회
       const createdUser = await User.findOne({ where: { email } });
       const user = createdUser.id;
       // boards table에 칼럼 생성
@@ -55,9 +55,9 @@ router.post('/login', async (req, res, next) => {
   try {
     // body에 email,password validation
     const { email, password } = await loginSchema.validateAsync(req.body);
-    // user table의 email 조건 검색
+    // user table의 email 조건 조회
     const user = await User.findOne({ where: { email } });
-    // 검색한 회원의 이메일이 없는 경우
+    // 조회한 회원의 이메일이 없는 경우
     if (!user) {
       return res.status(400).json({});
     }
@@ -79,7 +79,7 @@ router.post('/login', async (req, res, next) => {
 router.get('/login/:email', async (req, res, next) => {
   const { email } = req.params; // params에 email 객체
   try {
-    // usrs table에 mail 조건 검색
+    // usrs table에 email 조건 조회
     const userExist = await User.findOne({ where: { email } });
     // 이메일이 존재하는 경우
     if (userExist) {

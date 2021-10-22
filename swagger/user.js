@@ -11,16 +11,16 @@
  *         schema:
  *           type: object
  *           properties:
- *            email:
- *              type: string
- *            password:
- *              type: string
- *            age:
- *              type: string
- *            example:
- *              email: "jcw@naver.com"
- *              password: "ckd12300"
- *              age: "20"
+ *             email:
+ *               type: string
+ *             password:
+ *               type: string
+ *             age:
+ *               type: string
+ *           example:
+ *             email: "jcw@naver.com"
+ *             password: "ckd12300"
+ *             age: "20"
  *     responses:
  *       '201':
  *         description: 회원 등록 성공!(Created)
@@ -46,9 +46,9 @@
  *               type: string
  *             password:
  *               type: string
- *         example:
- *             email: "jcw"
- *             password: "ckd123"
+ *           example:
+ *             email: "jcw@naver.com"
+ *             password: "ckd12300"
  *     responses:
  *       '201':
  *         description: 로그인 성공!

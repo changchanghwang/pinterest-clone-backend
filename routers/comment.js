@@ -39,7 +39,7 @@ router.patch('/:comment', auth, async (req, res, next) => {
   const { comment } = req.params; // params에 comment 객체
   const user = res.locals.user; // 로그인 회원 확인
   try {
-    // comments table의 id=comment, user 조건 검색
+    // comments table의 id=comment, user 조건 조회
     const commentExist = await Comment.findOne({
       where: { id: comment, user },
     });
@@ -62,7 +62,7 @@ router.post('/like/:comment', auth, async (req, res, next) => {
   const { comment } = req.params; // params에 comment 객체
   const user = res.locals.user; // 로그인 회원 확인
   try {
-    // likes table의 comment, user 조건을 검색
+    // likes table의 comment, user 조건을 조회
     const likeExist = await Like.findOne({ where: { comment, user } });
     // 조건이 없는 경우
     if (!likeExist) {
