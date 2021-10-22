@@ -79,6 +79,7 @@ router.get('/detail/:pin', auth, async (req, res, next) => {
   }
 });
 
+/* 검색페이지 */
 router.get('/search/:word', auth, async (req, res, next) => {
   const { word } = req.params;
   try {

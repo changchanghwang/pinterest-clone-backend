@@ -3,7 +3,7 @@
  * /user/signup:
  *   post:
  *     tags:
- *      - User
+ *       - User
  *     summary: 회원 등록
  *     parameters:
  *       - name: body
@@ -24,17 +24,13 @@
  *     responses:
  *       '201':
  *         description: 회원 등록 성공!(Created)
- *       '307':
- *         description: 아이디 혹은 닉네임 중복이 있을 경우 발생하는 에러(Temporary Redirect)
  *       '404':
  *         description: 경로를 찾지 못했습니다.(Not Found)
- *       '500':
- *         description: 회원가입시 발생한 예상하지 못한 에러(Internal Server Error)
  * /user/login:
  *   post:
  *     tags:
  *       - User
- *     summary: 로그인 기능(사용 가능)
+ *     summary: 로그인 기능
  *     parameters:
  *       - name: body
  *         in: body
@@ -62,8 +58,8 @@
  *      - bearerAuth: []
  *     tags:
  *      - User
- *     name: 로그인 체크 기능(사용 가능)
- *     summary: 로그인 체크 기능(사용 가능)
+ *     name: 로그인 체크 기능
+ *     summary: 로그인 체크 기능
  *     parameters:
  *       - name: email
  *         in: path
@@ -77,5 +73,5 @@
  *       '401':
  *         description: 로그인 되어 있지 않은 유저
  *       '500':
- *         description: 예상하지 못한 에러
+ *         description: 서버 에러
  */

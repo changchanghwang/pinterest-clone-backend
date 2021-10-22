@@ -5,9 +5,9 @@
  *     security:
  *      - bearerAuth: []
  *     tags:
- *      - Post
- *     name: 게시글 등록
- *     summary: 게시글 등록(사용 가능)
+ *      - Pin
+ *     name: 핀 등록
+ *     summary: 핀 등록
  *     parameters:
  *       - name: board
  *         in: path
