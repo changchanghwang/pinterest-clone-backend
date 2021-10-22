@@ -35,6 +35,7 @@ router.post('/signup', async (req, res, next) => {
       const user = createdUser.id;
       // boards table에 칼럼 생성
       await Board.create({ boardName: '나의 보드', user });
+      // 토큰 부여
       const token = jwt.sign({ email }, process.env.SECRET_KEY);
       return res.status(200).json({ token, nickname });
     } else {
@@ -52,7 +53,9 @@ router.post('/signup', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   try {
+    // body에 email,password validation
     const { email, password } = await loginSchema.validateAsync(req.body);
+    // user table의 email 조건 검색
     const user = await User.findOne({ where: { email } });
     // 검색한 회원의 이메일이 없는 경우
     if (!user) {
@@ -72,11 +75,13 @@ router.post('/login', async (req, res, next) => {
     next(err);
   }
 });
-/* 회원가입창 -> 로그인창 ?? */
+/* 로그인 체크 */
 router.get('/login/:email', async (req, res, next) => {
-  const { email } = req.params;
+  const { email } = req.params; // params에 email 객체
   try {
+    // usrs table에 mail 조건 검색
     const userExist = await User.findOne({ where: { email } });
+    // 이메일이 존재하는 경우
     if (userExist) {
       res.sendStatus(200);
     } else {
