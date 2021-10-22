@@ -2,11 +2,26 @@
 
 ## Pinterest
 
+## 인원
+[프론트](https://github.com/highjoon/pinterest-clone-frontend)
+ - 윤상준 [(깃허브 바로가기)](https://github.com/highjoon)
+ - 이성민 [(깃허브 바로가기)](https://github.com/sungminleeme)
+ - 이수창 [(깃허브 바로가기)](https://github.com/eternalclash)
+
+[백엔드](https://github.com/changchanghwang/pinterest-clone-backend)
+ - 정창우 [(깃허브 바로가기)](https://github.com/changpro1)
+ - 황창환 [(깃허브 바로가기)](https://github.com/changchanghwang)
 ## SCOPE
 로그인/회원가입
+
 이미지 기반 핀 CRUD, 
-저장을 눌렀을 때 찜목록으로가기
+
+마이페이지
+
 댓글 + 좋아요
+
+검색기능
+
 
 ## 공통
 

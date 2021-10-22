@@ -73,16 +73,13 @@ router.post('/like/:comment', auth, async (req, res, next) => {
     // 조건이 없는 경우
     if (!likeExist) {
       await Like.create({ comment, user }); // likes table에 comment,user 생성
-      const likeNum = await Like.count({ where: { comment } }); // comment 갯수 반환
-      await Comment.update({ likeNum }, { where: { id: comment } }); // where 조건에 따라 likeNum을 수정
-      res.sendStatus(200);
     } else {
       // 조건이 있는 경우
       await Like.destroy({ where: { comment } }); // likes table에 comment 삭제
-      const likeNum = await Like.count({ where: { comment } });
-      await Comment.update({ likeNum }, { where: { id: comment } });
-      res.sendStatus(200);
     }
+    const likeNum = await Like.count({ where: { comment } }); // comment 갯수 반환
+    await Comment.update({ likeNum }, { where: { id: comment } }); // where 조건에 따라 likeNum을 수정
+    res.sendStatus(200);
   } catch (err) {
     console.error(err);
     next(err);

@@ -11,18 +11,10 @@ router.post(
   auth,
   upload.single('image'), // image upload middleware
   async (req, res, next) => {
-<<<<<<< HEAD
-    const { board } = req.params;
-    console.log(board);
-    const { title, desc } = req.body;
-    const imgURL = req.file.location;
-    const user = res.locals.user;
-=======
     const { board } = req.params; // params에 board 객체
     const { title, desc } = req.body; // body에 title,desc 객체
     const imgURL = req.file.location; // file.location에 저장된 객체imgURL
     const user = res.locals.user; // 로그인 회원 확인
->>>>>>> login
     try {
       // pins table에 칼럼 생성
       await Pin.create({
