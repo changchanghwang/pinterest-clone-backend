@@ -4,21 +4,23 @@ const { Comment, Like } = require('../models');
 const auth = require('../middlewares/auth');
 require('dotenv').config();
 
+/* 상세페이지 댓글 */
 router.get('/:pin', auth, async (req, res, next) => {
-  const { pin } = req.params;
+  const { pin } = req.params; // params에 pin 객체
   try {
-    const comments = await Comment.findAll({ where: { pin } });
+    const comments = await Comment.findAll({ where: { pin } }); // comments table의 pin 칼럼을 찾는다. [{}]구조
     res.status(200).json({ comments });
   } catch (err) {
     next(err);
   }
 });
 
-//댓글 등록하기
+/* 댓글 등록 */
 router.post('/', auth, async (req, res, next) => {
-  const { content, pin } = req.body;
-  const user = res.locals.user;
+  const { content, pin } = req.body; // body에 content, pin 객체
+  const user = res.locals.user; // 로그인 회원 확인
   try {
+    // comments table에 content,pin,user 칼럼생성
     await Comment.create({
       content,
       pin,
@@ -35,13 +37,15 @@ router.post('/', auth, async (req, res, next) => {
   }
 });
 
+/* 댓글 수정 */
 router.patch('/:comment', auth, async (req, res, next) => {
   console.log(req.params);
   console.log(req.body);
-  const { content } = req.body;
-  const { comment } = req.params;
-  const user = res.locals.user;
+  const { content } = req.body; // body에 content 객체
+  const { comment } = req.params; // params에 comment 객체
+  const user = res.locals.user; // 로그인 회원 확인
   try {
+    // comments table의 id=comment, user 조건 조회
     const commentExist = await Comment.findOne({
       where: { id: comment, user },
     });
@@ -49,6 +53,7 @@ router.patch('/:comment', auth, async (req, res, next) => {
     if (!commentExist) {
       return res.sendStatus(400);
     } else {
+      // 조건이 있는 경우 comments table의 where조건에 따라 content를 수정
       await Comment.update({ content }, { where: { id: comment, user } });
       return res.sendStatus(200);
     }
@@ -58,19 +63,22 @@ router.patch('/:comment', auth, async (req, res, next) => {
   }
 });
 
+/* 댓글 좋아요 */
 router.post('/like/:comment', auth, async (req, res, next) => {
-  const { comment } = req.params;
-  const user = res.locals.user;
+  const { comment } = req.params; // params에 comment 객체
+  const user = res.locals.user; // 로그인 회원 확인
   try {
+    // likes table의 comment, user 조건을 조회
     const likeExist = await Like.findOne({ where: { comment, user } });
+    // 조건이 없는 경우
     if (!likeExist) {
-      await Like.create({ comment, user });
-      res.sendStatus(200);
+      await Like.create({ comment, user }); // likes table에 comment,user 생성
     } else {
-      await Like.destroy({ where: { comment } });
+      // 조건이 있는 경우
+      await Like.destroy({ where: { comment } }); // likes table에 comment 삭제
     }
-    const likeNum = await Like.count({ where: { comment } });
-    await Comment.update({ likeNum }, { where: { id: comment } });
+    const likeNum = await Like.count({ where: { comment } }); // comment 갯수 반환
+    await Comment.update({ likeNum }, { where: { id: comment } }); // where 조건에 따라 likeNum을 수정
     res.sendStatus(200);
   } catch (err) {
     console.error(err);
@@ -79,8 +87,8 @@ router.post('/like/:comment', auth, async (req, res, next) => {
 });
 
 /* 댓글 삭제 */
-router.delete('/:comment', auth, async (req, res) => {
-  const { comment } = req.params;
+router.delete('/:comment', auth, async (req, res, next) => {
+  const { comment } = req.params; // params에 comment 객체
   console.log(comment);
   const user = res.locals.user;
   console.log(user);
@@ -95,7 +103,7 @@ router.delete('/:comment', auth, async (req, res) => {
       res.sendStatus(400);
     }
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
 });
 

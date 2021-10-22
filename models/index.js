@@ -5,7 +5,7 @@ const Comment = require('./comments');
 const Board = require('./boards');
 const Like = require('./likes');
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 const config = require('../config/config.json')[env];
 const db = {};
 
