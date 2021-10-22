@@ -58,7 +58,7 @@ database : MySQL
 ---|:---:
 <img src='https://img.shields.io/badge/bcrypt-5.0.1-lightgrey'> | 비밀번호 암호화
 <img src='https://img.shields.io/badge/cors-2.8.5-lightgrey'> | 교차 리소스 공유
-<img src='https://img.shields.io/badge/aws-sdk-2.1010.0-lightgrey'>  | 아마존 서비스 연결
+<img src='https://img.shields.io/badge/aws--sdk-2.1010.0-lightgrey'>  | 아마존 서비스 연결
 <img src='https://img.shields.io/badge/multer-1.4.3-lightgrey'>  | 파일 업로드
 <img src='https://img.shields.io/badge/multer--s3-2.10.0-lightgrey'>  | s3 파일 업로드
 <img src='https://img.shields.io/badge/dotenv-10.0.0-lightgrey'>  | 환경변수 관리
