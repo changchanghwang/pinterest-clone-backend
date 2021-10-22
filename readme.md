@@ -53,6 +53,25 @@ database : MySQL
 
 패키지 설치시 상대한테 알려주기
 
+### 라이브러리
+라이브러리 | 설명
+---|:---:
+<img src='https://img.shields.io/badge/bcrypt-5.0.1-lightgrey'> | 비밀번호 암호화
+<img src='https://img.shields.io/badge/cors-2.8.5-lightgrey'> | 교차 리소스 공유
+<img src='https://img.shields.io/badge/aws-sdk-2.1010.0-lightgrey'>  | 아마존 서비스 연결
+<img src='https://img.shields.io/badge/multer-1.4.3-lightgrey'>  | 파일 업로드
+<img src='https://img.shields.io/badge/multer--s3-2.10.0-lightgrey'>  | s3 파일 업로드
+<img src='https://img.shields.io/badge/dotenv-10.0.0-lightgrey'>  | 환경변수 관리
+<img src='https://img.shields.io/badge/express-4.17.1-lightgrey'> | 서버
+<img src='https://img.shields.io/badge/joi-17.4.2-lightgrey'>  | 입력데이터 검출
+<img src='https://img.shields.io/badge/jsonwebtoken-8.5.1-lightgrey'>  | 서명 암호화
+<img src='https://img.shields.io/badge/morgan-1.10.0-lightgrey'> | Http Log 기록
+<img src='https://img.shields.io/badge/mysql2-2.3.0-lightgrey'>  | 데이터베이스
+<img src='https://img.shields.io/badge/sequelize-6.7.0-lightgrey'>  | MySQL ORM
+<img src='https://img.shields.io/badge/sequelize--cli-6.2.0-lightgrey'> | MySQL ORM Console
+<img src='https://img.shields.io/badge/swagger--jsdoc-6.1.0-lightgrey'> | API 문서화
+
+
 ## API설계
 <img src="./readmeImg/api1.PNG" style="width:400px;"/>
 <img src="./readmeImg/api2.PNG" style="width:400px;"/>
