@@ -41,11 +41,11 @@ router.get('/my', auth, async (req, res, next) => {
 router.get('/main', auth, async (req, res) => {
   const user = res.locals.user;
   try {
-    const pins = await Pin.findAll({});
+    const pins = await Pin.findAll({
+      order: [['id', 'DESC']],
+    });
     const board = await Board.findOne({ where: { user } });
     const boardId = board.id;
-    console.log(boardId);
-    console.log(pins.length);
     res.status(200).json({ pins, boardId });
   } catch (err) {
     res.status(400).send(err);
@@ -56,7 +56,19 @@ router.get('/main', auth, async (req, res) => {
 router.get('/detail/:pin', auth, async (req, res, next) => {
   const { pin } = req.params;
   try {
-    const pinDetail = await Pin.findOne({ where: { id: pin } });
+    const pinDetail = await Pin.findOne({
+      include: [
+        {
+          model: User,
+          attributes: ['nickname'],
+        },
+        {
+          model: Board,
+          attributes: ['boardName'],
+        },
+      ],
+      where: { id: pin },
+    });
     res.status(200).json({ pinDetail });
   } catch (err) {
     next(err);

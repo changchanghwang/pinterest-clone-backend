@@ -65,15 +65,13 @@ router.post('/like/:comment', auth, async (req, res, next) => {
     const likeExist = await Like.findOne({ where: { comment, user } });
     if (!likeExist) {
       await Like.create({ comment, user });
-      const likeNum = await Like.count({ where: { comment } });
-      await Comment.update({ likeNum }, { where: { id: comment } });
       res.sendStatus(200);
     } else {
       await Like.destroy({ where: { comment } });
-      const likeNum = await Like.count({ where: { comment } });
-      await Comment.update({ likeNum }, { where: { id: comment } });
-      res.sendStatus(200);
     }
+    const likeNum = await Like.count({ where: { comment } });
+    await Comment.update({ likeNum }, { where: { id: comment } });
+    res.sendStatus(200);
   } catch (err) {
     console.error(err);
     next(err);
