@@ -6,9 +6,11 @@ const { Board, Pin, Comment, User } = require('../models');
 const auth = require('../middlewares/auth');
 require('dotenv').config();
 
+/* 등록페이지 */
 router.get('/submit', auth, async (req, res, next) => {
   const user = res.locals.user;
   try {
+    // board table의 user 조회
     const myBoard = await Board.findOne({ where: { user } });
     res.status(200).json({ myBoard });
   } catch (err) {
@@ -16,9 +18,11 @@ router.get('/submit', auth, async (req, res, next) => {
   }
 });
 
+/* 마이페이지 */
 router.get('/my', auth, async (req, res, next) => {
   const user = res.locals.user;
   try {
+    // 로그인 한 회원. User와 Pin관계쿼리 pins의 id, imgURL 칼럼 선택조회
     const myBoard = await User.findOne({
       include: [
         {
@@ -37,10 +41,11 @@ router.get('/my', auth, async (req, res, next) => {
   }
 });
 
-// 메인페이지
+/* 메인페이지 */
 router.get('/main', auth, async (req, res) => {
   const user = res.locals.user;
   try {
+    // pins table의 모든 값
     const pins = await Pin.findAll({});
     const board = await Board.findOne({ where: { user } });
     const boardId = board.id;
@@ -48,14 +53,15 @@ router.get('/main', auth, async (req, res) => {
     console.log(pins.length);
     res.status(200).json({ pins, boardId });
   } catch (err) {
-    res.status(400).send(err);
+    next(err);
   }
 });
 
-//상세페이지
+/* 상세페이지 */
 router.get('/detail/:pin', auth, async (req, res, next) => {
   const { pin } = req.params;
   try {
+    // pins tabledml id=pin 조회
     const pinDetail = await Pin.findOne({ where: { id: pin } });
     res.status(200).json({ pinDetail });
   } catch (err) {
