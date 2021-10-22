@@ -34,7 +34,6 @@
  * /view/main:
  *   get:
  *     security:
- *      - bearerAuth: []
  *     tags:
  *       - view
  *     name: 메인 페이지
