@@ -7,7 +7,7 @@ const { Pin } = require('../models');
 
 /* 핀 등록하기 */
 router.post(
-  '/pin/:board',
+  '/:board',
   auth,
   upload.single('image'), // image upload middleware
   async (req, res, next) => {

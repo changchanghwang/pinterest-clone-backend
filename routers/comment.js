@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Comment, Like } = require('../models');
+const { Comment, Like, User } = require('../models');
 const auth = require('../middlewares/auth');
 require('dotenv').config();
 
@@ -8,7 +8,15 @@ require('dotenv').config();
 router.get('/:pin', auth, async (req, res, next) => {
   const { pin } = req.params; // params에 pin 객체
   try {
-    const comments = await Comment.findAll({ where: { pin } }); // comments table의 pin 칼럼을 찾는다. [{}]구조
+    const comments = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['nickname'],
+        },
+      ],
+      where: { pin },
+    }); // comments table의 pin 칼럼을 찾는다. [{}]구조
     res.status(200).json({ comments });
   } catch (err) {
     next(err);
@@ -49,7 +57,6 @@ router.patch('/:comment', auth, async (req, res, next) => {
     const commentExist = await Comment.findOne({
       where: { id: comment, user },
     });
-    console.log(commentExist);
     if (!commentExist) {
       return res.sendStatus(400);
     } else {
@@ -79,7 +86,7 @@ router.post('/like/:comment', auth, async (req, res, next) => {
     }
     const likeNum = await Like.count({ where: { comment } }); // comment 갯수 반환
     await Comment.update({ likeNum }, { where: { id: comment } }); // where 조건에 따라 likeNum을 수정
-    res.sendStatus(200);
+    return res.status(200).json({ likeNum });
   } catch (err) {
     console.error(err);
     next(err);
@@ -89,9 +96,7 @@ router.post('/like/:comment', auth, async (req, res, next) => {
 /* 댓글 삭제 */
 router.delete('/:comment', auth, async (req, res, next) => {
   const { comment } = req.params; // params에 comment 객체
-  console.log(comment);
   const user = res.locals.user;
-  console.log(user);
   try {
     const commentExist = await Comment.findOne({
       where: { id: comment, user },

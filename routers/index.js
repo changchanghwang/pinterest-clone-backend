@@ -40,9 +40,19 @@ router.get('/swagger.json', (req, res) => {
 });
 
 router.use('/comment', commentRouter);
-router.use('/', pinRouter);
+router.use('/pin', pinRouter);
 router.use('/view', viewRouter);
 router.use('/user', userRouter);
 router.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+router.get('/', async (req, res, next) => {
+  const { authorization } = req.headers;
+  console.log(authorization);
+  const [Bearer, token] = authorization.split(' ');
+  if (token == 'undefined') {
+    return res.sendStatus(200);
+  } else {
+    return res.sendStatus(400);
+  }
+});
 
 module.exports = router;
