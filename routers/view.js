@@ -30,10 +30,9 @@ router.get('/my', auth, async (req, res, next) => {
           attributes: ['id', 'imgURL'],
         },
       ],
-      attributes: ['id'],
+      attributes: ['id', 'nickname'],
       where: { id: user },
     });
-    console.log(myBoard);
     res.status(200).json({ myBoard });
   } catch (err) {
     console.error(err);
