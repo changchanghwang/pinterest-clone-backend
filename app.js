@@ -15,7 +15,8 @@ sequelize
 //cors
 app.use(
   cors({
-    origin: true,
+    origin:
+      'http://pinterest-clone-frontend.s3-website.ap-northeast-2.amazonaws.com/',
     credentials: true,
   })
 );

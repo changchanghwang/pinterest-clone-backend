@@ -1,6 +1,7 @@
 # 항해99 클론코딩
 
 ## Pinterest
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/85213997/138467799-61c667d8-67b9-408f-89a3-325dbac5011a.gif)
 
 ## 인원
 [프론트](https://github.com/highjoon/pinterest-clone-frontend)
