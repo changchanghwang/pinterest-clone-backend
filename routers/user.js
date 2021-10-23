@@ -59,11 +59,11 @@ router.post('/login', async (req, res, next) => {
     const user = await User.findOne({ where: { email } });
     // 조회한 회원의 이메일이 없는 경우
     if (!user) {
-      return res.status(400).json({});
+      return res.sendStatus(400);
     }
     // 비밀번호가 일치하지 않는 경우. password 비교함수
     if (!bcrypt.compareSync(password, user.password)) {
-      return res.status(400).json({});
+      return res.sendStatus(400);
     } else {
       // 토큰 생성
       const mail = user.email;
