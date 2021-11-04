@@ -85,7 +85,6 @@
  *         description: 해당 URL을 찾을 수 없습니다.
  *       '500':
  *         description: 서버 에러
- * /comment/{comment}.:
  *   delete:
  *     security:
  *      - bearerAuth: []

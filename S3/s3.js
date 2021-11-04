@@ -15,7 +15,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'pinterestclonecoding',
-    // contentType: multerS3.AUTO_CONTENT_TYPE,
+    // contentType: multerS3.AUTO_CONTENT_TYPE,  // image/jpeg
     key: function (req, file, cb) {
       const extension = path.extname(file.originalname);
       cb(null, Date.now().toString() + extension);

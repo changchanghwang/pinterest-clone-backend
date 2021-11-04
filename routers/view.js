@@ -41,7 +41,7 @@ router.get('/my', auth, async (req, res, next) => {
 });
 
 /* 메인페이지 */
-router.get('/main', auth, async (req, res) => {
+router.get('/main', auth, async (req, res, next) => {
   const user = res.locals.user;
   try {
     const pins = await Pin.findAll({

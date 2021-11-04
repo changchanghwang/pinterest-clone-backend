@@ -47,8 +47,6 @@ router.post('/', auth, async (req, res, next) => {
 
 /* 댓글 수정 */
 router.patch('/:comment', auth, async (req, res, next) => {
-  console.log(req.params);
-  console.log(req.body);
   const { content } = req.body; // body에 content 객체
   const { comment } = req.params; // params에 comment 객체
   const user = res.locals.user; // 로그인 회원 확인
