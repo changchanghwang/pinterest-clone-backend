@@ -6,7 +6,7 @@
  *      - bearerAuth: []
  *     tags:
  *      - Comment
- *     name: 상세페이지 댓글
+ *     name:
  *     summary: 상세페이지 댓글
  *     parameters:
  *       - name: pin

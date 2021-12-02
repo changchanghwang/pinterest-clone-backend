@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { Comment, Like, User } = require('../models');
-const auth = require('../middlewares/auth');
-require('dotenv').config();
+const { Comment, Like, User } = require("../models");
+const auth = require("../middlewares/auth");
+require("dotenv").config();
 
 /* 상세페이지 댓글 */
-router.get('/:pin', auth, async (req, res, next) => {
+router.get("/:pin", auth, async (req, res, next) => {
   const { pin } = req.params; // params에 pin 객체
   try {
     const comments = await Comment.findAll({
       include: [
         {
           model: User,
-          attributes: ['nickname'],
+          attributes: ["nickname"],
         },
       ],
       where: { pin },
@@ -24,7 +24,7 @@ router.get('/:pin', auth, async (req, res, next) => {
 });
 
 /* 댓글 등록 */
-router.post('/', auth, async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
   const { content, pin } = req.body; // body에 content, pin 객체
   const user = res.locals.user; // 로그인 회원 확인
   try {
@@ -46,7 +46,7 @@ router.post('/', auth, async (req, res, next) => {
 });
 
 /* 댓글 수정 */
-router.patch('/:comment', auth, async (req, res, next) => {
+router.patch("/:comment", auth, async (req, res, next) => {
   console.log(req.params);
   console.log(req.body);
   const { content } = req.body; // body에 content 객체
@@ -71,7 +71,7 @@ router.patch('/:comment', auth, async (req, res, next) => {
 });
 
 /* 댓글 좋아요 */
-router.post('/like/:comment', auth, async (req, res, next) => {
+router.post("/like/:comment", auth, async (req, res, next) => {
   const { comment } = req.params; // params에 comment 객체
   const user = res.locals.user; // 로그인 회원 확인
   try {
@@ -94,7 +94,7 @@ router.post('/like/:comment', auth, async (req, res, next) => {
 });
 
 /* 댓글 삭제 */
-router.delete('/:comment', auth, async (req, res, next) => {
+router.delete("/:comment", auth, async (req, res, next) => {
   const { comment } = req.params; // params에 comment 객체
   const user = res.locals.user;
   try {
